@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator Sederhana</title>
+  </head>
+  <body>
+    <div id="app" class="calculator">
+      <h1 class="title">Kalkulator Sederhana</h1>
+      <input v-model="expression" type="text" @input="updateExpression" @keydown="calculateOnEnter" />
+      <div class="button-container">
+        <div>
+          <button class="button" @click="addToExpression('1')">1</button>
+          <button class="button" @click="addToExpression('2')">2</button>
+          <button class="button" @click="addToExpression('3')">3</button>
+          <button class="button" @click="addToExpression('+')">+</button>
+        </div>
+        <div>
+          <button class="button" @click="addToExpression('4')">4</button>
+          <button class="button" @click="addToExpression('5')">5</button>
+          <button class="button" @click="addToExpression('6')">6</button>
+          <button class="button" @click="addToExpression('-')">-</button>
+        </div>
+        <div>
+          <button class="button" @click="addToExpression('7')">7</button>
+          <button class="button" @click="addToExpression('8')">8</button>
+          <button class="button" @click="addToExpression('9')">9</button>
+          <button class="button" @click="addToExpression('*')">*</button>
+        </div>
+        <div>
+          <button class="button" @click="addToExpression('0')">0</button>
+          <button class="button" @click="addToExpression('.')">.</button>
+          <button class="button" @click="calculate">=</button>
+          <button class="button" @click="addToExpression('/')">/</button>
+        </div>
+      </div>
+      <div>
+        <button @click="clear">Hapus</button>
+      </div>
+      <p>Hasil: {{ result }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          expression: "",
+          result: "",
+        },
+        methods: {
+          updateExpression: function () {
+            this.expression = this.expression.replace(/[^-()\d/*+.]/g, "");
+          },
+          addToExpression: function (char) {
+            this.expression += char;
+          },
+          calculate: function () {
+            try {
+              this.result = eval(this.expression);
+            } catch (error) {
+              this.result = "Error";
+            }
+          },
+          clear: function () {
+            this.expression = "";
+            this.result = "";
+          },
+          calculateOnEnter: function (event) {
+            if (event.key === "Enter") {
+              this.calculate();
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
